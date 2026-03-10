@@ -728,3 +728,95 @@ body {
         font-size: 0.85rem;
     }
 }
+
+/* PIN Lock Screen */
+.pin-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.pin-screen.hidden {
+    display: none;
+}
+
+.pin-container {
+    text-align: center;
+    width: 100%;
+    max-width: 260px;
+}
+
+.pin-container h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+}
+
+.pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.dot.filled {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.pin-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.pin-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pin-btn:active {
+    background: #f0f0f0;
+    border-color: var(--accent);
+}
+
+.pin-btn.empty {
+    visibility: hidden;
+}
+
+.pin-btn.delete {
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+}
+
+.pin-message {
+    margin-top: 1.5rem;
+    height: 20px;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 700;
+}

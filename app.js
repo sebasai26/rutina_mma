@@ -79,6 +79,10 @@ let currentSection = 'rutina';
 let cargas = {};
 let fotos = {}; // { weekN: { url: base64, date: 'YYYY-MM-DD' } }
 let pesoData = []; // [{ date: '...', weight: 75, week: 1 }]
+let userPin = null;
+let currentPinInput = "";
+let isEditingDieta = false;
+let chartInstances = {};
 let dieta = `PLAN NUTRICIONAL 8 SEMANAS – VOLUMEN Y FUERZA (MMA)
 
 Objetivo: 3400–3600 kcal
@@ -114,7 +118,7 @@ Desayuno: 120 g avena choco + 300 ml leche  + 30 g crema de cacahuete.
 Comida: 170 g arroz + 200 g lomo + 200 g variadas + 10 g AOVE.
 Merienda: 300 g yogur griego + 100 g cereales + 20 g nueces + 150 g fresas.
 Cena: 600 g patata + 200 g filete de cerdo + ensalada 200 g + 10 g AOVE.`;
-let chartInstances = {};
+
 
 // Obtener fase según semana
 function getPhase(week) {
@@ -133,6 +137,7 @@ function loadData() {
       currentWeek = data.week || 1;
       fotos = data.fotos || {};
       pesoData = data.pesoData || [];
+      userPin = data.userPin || null;
       // Si la dieta guardada está vacía, mantener la que precargamos arriba
       if (data.dieta && data.dieta.trim() !== "") {
         dieta = data.dieta;
@@ -151,6 +156,7 @@ function saveData() {
     fotos: fotos,
     pesoData: pesoData,
     dieta: dieta,
+    userPin: userPin,
     lastUpdate: new Date().toISOString()
   };
   localStorage.setItem("mma_rutina_data", JSON.stringify(data));
@@ -500,13 +506,68 @@ function handleSave() {
   doSave();
 }
 
+// PIN Logic
+window.pressPin = (digit) => {
+    if (currentPinInput.length < 4) {
+        currentPinInput += digit;
+        updatePinDots();
+        if (currentPinInput.length === 4) {
+            setTimeout(verifyPin, 200);
+        }
+    }
+};
+
+window.deletePin = () => {
+    currentPinInput = currentPinInput.slice(0, -1);
+    updatePinDots();
+};
+
+function updatePinDots() {
+    const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot, i) => {
+        dot.classList.toggle("filled", i < currentPinInput.length);
+    });
+}
+
+function verifyPin() {
+    const messageEl = document.getElementById("pinMessage");
+    
+    if (!userPin) {
+        // Establecer PIN por primera vez
+        userPin = currentPinInput;
+        saveData();
+        messageEl.textContent = "PIN CONFIGURADO CORRECTAMENTE";
+        setTimeout(unlockApp, 1000);
+    } else if (currentPinInput === userPin) {
+        unlockApp();
+    } else {
+        messageEl.textContent = "PIN INCORRECTO";
+        currentPinInput = "";
+        setTimeout(() => {
+            updatePinDots();
+            messageEl.textContent = "";
+        }, 1000);
+    }
+}
+
+function unlockApp() {
+    document.getElementById("pinScreen").classList.add("hidden");
+    renderContent();
+}
+
 // Inicialización
 function init() {
   loadData();
-  updateWeekUI();
-  renderContent();
+  
+  if (userPin) {
+      document.getElementById("pinTitle").textContent = "INTRODUCIR PIN";
+  } else {
+      document.getElementById("pinTitle").textContent = "CONFIGURAR PIN";
+  }
 
-  // Event listeners navegación principal
+  updateWeekUI();
+  // No renderizar hasta que esté desbloqueado
+
   document.querySelectorAll(".nav-btn").forEach(btn => {
       btn.addEventListener("click", () => {
           document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
@@ -550,5 +611,6 @@ function init() {
     }
   });
 }
+
 
 init();
