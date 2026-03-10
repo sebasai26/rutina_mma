@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutina MMA - 12 Semanas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="consideracionesModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Consideraciones del programa</h3>
+            <div class="consideraciones-text">
+                <p><strong>Trabajo extra escápula (3x/semana opcional):</strong></p>
+                <ul>
+                    <li>Remo unilateral lento</li>
+                    <li>Bottom-up kettlebell hold</li>
+                    <li>Serrato en plancha (protracción activa)</li>
+                    <li>Respiración costal posterior</li>
+                </ul>
+                <p><strong>Evitar:</strong> Press banca pesado tradicional, fondos profundos</p>
+                <p><strong>Priorizar:</strong> Agarre neutro, trabajo unilateral, mucho trabajo posterior</p>
+            </div>
+            <button id="cerrarModal" class="cerrar-modal">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="app">
+        <header class="header">
+            <h1>RUTINA MMA</h1>
+            <p class="subtitle">Programa 12 semanas • Martes y Sábado</p>
+            
+            <nav class="main-nav">
+                <button class="nav-btn active" data-section="rutina">RUTINA</button>
+                <button class="nav-btn" data-section="fotos">PROGRESO</button>
+                <button class="nav-btn" data-section="dieta">DIETA</button>
+                <button class="nav-btn" data-section="peso">PESO</button>
+            </nav>
+            
+            <div class="week-selector">
+                <label>Semana actual:</label>
+                <div class="week-buttons">
+                    <button class="week-btn" data-week="1">1</button>
+                    <button class="week-btn" data-week="2">2</button>
+                    <button class="week-btn" data-week="3">3</button>
+                    <button class="week-btn" data-week="4">4</button>
+                    <button class="week-btn" data-week="5">5</button>
+                    <button class="week-btn" data-week="6">6</button>
+                    <button class="week-btn" data-week="7">7</button>
+                    <button class="week-btn" data-week="8">8</button>
+                    <button class="week-btn" data-week="9">9</button>
+                    <button class="week-btn" data-week="10">10</button>
+                    <button class="week-btn" data-week="11">11</button>
+                    <button class="week-btn" data-week="12">12</button>
+                </div>
+                <span class="phase-badge" id="phaseBadge">Fase 1</span>
+            </div>
+        </header>
+
+        <button id="consideracionesBtn" class="consideraciones-btn">CONSIDERACIONES</button>
+
+        <nav class="day-nav" id="dayNav">
+            <button class="day-btn active" data-day="1">Martes<br><small>Potencia + Fuerza</small></button>
+            <button class="day-btn" data-day="2">Sábado<br><small>Contraste + Unilateral</small></button>
+        </nav>
+
+        <main class="content">
+            <div id="dayContent" class="day-content">
+                <!-- Contenido dinámico del día -->
+            </div>
+        </main>
+
+        <div class="save-bar">
+            <button id="saveBtn" class="save-btn">GUARDAR CARGAS</button>
+            <span id="saveStatus" class="save-status"></span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
